@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Create MiniO container
+    docker_container:
+      name: minio
+      image: minio/minio
+      ports:
+      - "9000:9000"
+      volumes:
+      - "/mnt/data:/data"
+      env:
+       MINIO_ACCESS_KEY: "AKIAIOSFODNN7"
+       MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCY"
+      command: server /dat
