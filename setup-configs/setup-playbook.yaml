@@ -1,7 +1,16 @@
 ---
-- hosts: all
+- hosts: localhost-py3
   become: true
+
   tasks:
+  
+  - name: Echo vars
+    shell: "echo $S3_URL & echo $S3_ACCESS_KEY & echo $S3_SECRET_KEY"
+    environment:
+      S3_URL: "http://localhost:9000"
+      S3_ACCESS_KEY: "AKIAIOSFODNN7"
+      S3_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCY"
+
   - name: Install packages that allow apt to be used over HTTPS
     apt:
       name: "{{ packages }}"
@@ -38,9 +47,9 @@
     notify:
       - docker status
 
-  - name: Add vagrant user to docker group
+  - name: Add ubuntu user to docker group
     user:
-      name: vagrant
+      name: ubuntu
       group: docker
 
   - name: Install python and its dependencies
@@ -54,37 +63,15 @@
       - python3-pip
 
   - name: Install pipenv
-    command: pip3 install pipenv
+    command: pip3 install pipenv docker
 
-    #- name: pipenv deploy
-    #  command: pipenv --python 3 install --system --deploy
+  - name:
+    git:
+      repo: https://github.com/erickcezar/minio-uploader.git
+      dest: /opt/prod/
 
-  - name: Install pip2 required to execute docker_container
-    shell: |
-      curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
-      python2 get-pip.py
-
-  - name: Install docker module
-    command: pip2 install docker
-
-  - name: Export shell variables
-    shell: |
-      export S3_URL=http://localhost
-      export S3_ACCESS_KEY=AKIAIOSFODNN7
-      export S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCY
-
-  - name: Create MiniO container
-    docker_container: 
-      name: minio
-      image: minio/minio
-      ports: 
-      - "9000:9000"
-      volumes:
-      - "/mnt/data:/data"
-      env:
-       MINIO_ACCESS_KEY: "AKIAIOSFODNN7"
-       MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCY"
-      command: server /data
+  - name: pipenv deploy
+    command: chdir=/opt/prod/src pipenv --python 3 install --system --deploy
 
   handlers:
   - name: docker status
