@@ -22,3 +22,9 @@ deploy:
   script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR ubuntu@3.128.66.39:~
   on:
     branch: master
+
+after_deploy:
+  - ssh ubuntu@3.128.66.39 <<EOF
+    pkill gunicorn
+    /home/ubuntu/minio-uploader/startup.sh
+    EOF
