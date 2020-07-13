@@ -12,8 +12,8 @@ localhost-py3 ansible_host=localhost ansible_connection=local ansible_python_int
 O "localhost-py3" é o ubuntu que rodará a aplicação.
 Os playbooks do ansible estão no diretório "setup-configs":
 
-setup-playbook.yaml -> responsável pela instalação dos pacotes necessários para o python3 e pipenv
-docker-minio.yaml -> responsável por instalar os módulos do docker e fazer o start do minio na porta 9000.
+setup-playbook.yaml -> responsável pela instalação dos pacotes necessários para o python3, pipenv e docker.
+docker-minio.yaml -> responsável por fazer o deploy e start do minio na porta 9000.
 
 # Shell
 Criei um script shell para levantar a aplicação com o gunicorn.
