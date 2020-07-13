@@ -1,3 +1,5 @@
+language: python
+
 addons:
   ssh_known_hosts: 3.128.66.39
 
