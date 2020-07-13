@@ -1,5 +1,6 @@
 # Vagrant
 Utilizei o vagrant para um ambiente de teste, adaptando o minio para executar com docker e ansible.
+Só depois de validar os playbooks, executei dentro do host ubuntu.
 
 # Ansible
 Utilizei o ansible para realizar a automação da instalação de pacotes necessários e utilizar o módulo docker para instalação do minio.
@@ -12,11 +13,12 @@ O "localhost-py3" é o ubuntu que rodará a aplicação.
 Os playbooks do ansible estão no diretório "setup-configs":
 
 setup-playbook.yaml -> responsável pela instalação dos pacotes necessários para o python3 e pipenv
-docker-minio.yaml -> responsável por instalar os módulos do docker e startar o minio na porta 9000.
+docker-minio.yaml -> responsável por instalar os módulos do docker e fazer o start do minio na porta 9000.
 
 # Shell
 Criei um script shell para levantar a aplicação com o gunicorn.
-Como instalei o python2.7 nesse processo, indiquei no scriṕt para utilizar o gunicorn3, usando a versão 3 do python.
+Como instalei o python2.7 nesse processo, indiquei no script para utilizar o gunicorn3, usando a versão 3 do python.
+Dentro do script, também são carregadas as variáveis de ambiente para o Minio.
 
 # Travis CI
 Como a aplicação está rodando em um único servidor, utilizei o Travis com um SSH.
