@@ -2,7 +2,7 @@ language: python
     
 install:
   - pip install pipenv
-  - ppipenv --python 3 install --system --deploy
+  - pipenv --python 3 install --system --deploy
 
 addons:
   ssh_known_hosts: 3.128.66.39
