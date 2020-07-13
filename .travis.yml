@@ -24,6 +24,4 @@ deploy:
     branch: master
 
 after_deploy:
-  - ssh ubuntu@3.128.66.39 <<EOF
-    /home/ubuntu/minio-uploader/startup.sh
-    EOF
+  - ssh ubuntu@3.128.66.39 <<EOF /home/ubuntu/minio-uploader/startup.sh EOF
