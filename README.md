@@ -1,50 +1,24 @@
-# MinIO Uploader
+# Vagrant
+Utilizei o vagrant para um ambiente de teste, adaptando o minio para executar com docker e ansible.
 
-O `MinIO Uploader` é endpoint que permite o envio de arquivos para o [MinIO](https://min.io/) sem a necessidade de autenticação.
+# Ansible
+Utilizei o ansible para realizar a automação da instalação de pacotes necessários e utilizar o módulo docker para instalação do minio.
+Com a instalação do ansible, veio junto o python 2.7. 
+Para o ansible utilizar a versão correta adicionei a seguinte linha no arquivo /etc/ansible/hosts:
 
-## Execução
+localhost-py3 ansible_host=localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 
-Este projeto depende do [MinIO](https://min.io/), por isso é necessário subir uma instância dele no seu ambiente para que a aplicação funcione corretamente.
+O "localhost-py3" é o ubuntu que rodará a aplicação.
+Os playbooks do ansible estão no diretório "setup-configs":
 
-Para executar o projeto é necessário instalar algumas dependências, configurar algumas variáveis de ambiente e executar o servidor `Gunicorn`. Para isso, utilize os seguintes comandos:
+setup-playbook.yaml -> responsável pela instalação dos pacotes necessários para o python3 e pipenv
+docker-minio.yaml -> responsável por instalar os módulos do docker e startar o minio na porta 9000.
 
-### Dependências
+# Shell
+Criei um script shell para levantar a aplicação com o gunicorn.
+Como instalei o python2.7 nesse processo, indiquei no scriṕt para utilizar o gunicorn3, usando a versão 3 do python.
 
-```bash
-apt update
-apt install -y python3 python3-pip
-pip3 install pipenv
-pipenv --python 3 install --system --deploy
-```
-
-### Variáveis de ambiente
-
-```bash
-export S3_URL=http://MINIO_URL
-export S3_ACCESS_KEY=MINIO_KEY
-export S3_SECRET_KEY=MINIO_SECRET
-```
-
-**Ps:** Substitua as variáveis com os valores do seu ambiente.
-
-### Servidor
-
-Para executar a aplicação, utilize o comando:
-
-```bash
-gunicorn --bind 0.0.0.0:5000 wsgi:app
-```
-
-A aplicação subirá na porta `5000/TCP`.
-
-Para testar o serviço, utilize o endereço: `http://URL:5000` e a mensagem `"Please, send a post request with file."` deverá ser exibida.
-
-## Enviando arquivos
-
-Para enviar arquivos para o [MinIO](https://min.io/) através do serviço, utilize o seguinte comando `curl`:
-
-```bash
-curl -X POST -F "file=@filename" http://URL/minio-upload/<bucket>/<filename>
-```
-
-**PS:** Substitua o `filename` pelo caminho absoluto do arquivo e o `<bucket>` pelo nome do Bucket criado no [MinIO](https://min.io/).
+# Travis CI
+Como a aplicação está rodando em um único servidor, utilizei o Travis com um SSH.
+Fiz toda a criptografia da chave, utilizando a gem travis. Ao realizar o teste da aplicação, o deploy é realizado via rsync com as chaves
+ssh criada no servidor ubuntu e adicionada no .travis.yml.
