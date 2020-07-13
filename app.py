@@ -18,7 +18,7 @@ S3CONF = boto3.resource(
 
 @app.route('/')
 def error():
-    return "Please, send a post request with file."
+    return "Please, send a post request with file. Teste GIT CD"
 
 @app.route("/minio-upload/<bucket>/<filename>", methods=["POST"])
 def index(bucket, filename):
