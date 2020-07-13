@@ -3,13 +3,6 @@
   become: true
 
   tasks:
-  
-  - name: Echo vars
-    shell: "echo $S3_URL & echo $S3_ACCESS_KEY & echo $S3_SECRET_KEY"
-    environment:
-      S3_URL: "http://localhost:9000"
-      S3_ACCESS_KEY: "AKIAIOSFODNN7"
-      S3_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCY"
 
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -68,10 +61,11 @@
   - name:
     git:
       repo: https://github.com/erickcezar/minio-uploader.git
-      dest: /opt/prod/
+      dest: /home/ubuntu/minio-uploader
+    become_user: ubuntu  
 
   - name: pipenv deploy
-    command: chdir=/opt/prod/src pipenv --python 3 install --system --deploy
+    command: chdir=/home/ubuntu/minio-uploader pipenv --python 3 install --system --deploy
 
   handlers:
   - name: docker status
