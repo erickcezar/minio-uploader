@@ -25,6 +25,5 @@ deploy:
 
 after_deploy:
   - ssh ubuntu@3.128.66.39 <<EOF
-    pkill gunicorn
     /home/ubuntu/minio-uploader/startup.sh
     EOF
