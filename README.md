@@ -22,3 +22,9 @@ Como instalei o python2.7 nesse processo, indiquei no scriṕt para utilizar o g
 Como a aplicação está rodando em um único servidor, utilizei o Travis com um SSH.
 Fiz toda a criptografia da chave, utilizando a gem travis. Ao realizar o teste da aplicação, o deploy é realizado via rsync com as chaves
 ssh criada no servidor ubuntu e adicionada no .travis.yml.
+
+# Gunicorn
+Com a instalação do python 2.7, precisei instalar o gunicorn3 para utilizar a versão do python correta.
+Dentro do script startup.php adicionei a seguinte linha: gunicorn3 --bind 0.0.0.0:5000 wsgi:app --reload --log-file gunicorn.log &
+Essa linha manda as logs para um arquivo, sem precisar imprimir tudo na tela. E a flag reload ajusta na hora que o travis realiza o rsync
+para o diretório onde a aplicação está executando. Dessa forma, o próprio gunicorn faz um reload com os arquivos atualizados.
