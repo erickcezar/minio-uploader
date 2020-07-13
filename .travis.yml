@@ -22,9 +22,3 @@ deploy:
   script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR ubuntu@3.128.66.39:~
   on:
     branch: master
-    
-- provider: script
-  skip_cleanup: true
-  script: ssh -p22 ubuntu@3.128.66.39 "/home/ubuntu/minio-uploader/startup.sh"
-  on:
-    branch: master
