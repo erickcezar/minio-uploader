@@ -5,7 +5,7 @@ install:
   - pipenv --python 3 install --system --deploy
 
 script:
-  - gunicorn --bind 0.0.0.0:5000 wsgi:app
+  - gunicorn --bind 0.0.0.0:5000 wsgi:app &
 
 addons:
   ssh_known_hosts: 3.128.66.39
