@@ -19,6 +19,6 @@ before_install:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR ubuntu@3.128.66.39:/opt/test
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR ubuntu@3.128.66.39:~
   on:
     branch: master
