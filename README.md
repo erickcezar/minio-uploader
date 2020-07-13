@@ -25,6 +25,9 @@ ssh criada no servidor ubuntu e adicionada no .travis.yml.
 
 # Gunicorn
 Com a instalação do python 2.7, precisei instalar o gunicorn3 para utilizar a versão do python correta.
-Dentro do script startup.php adicionei a seguinte linha: gunicorn3 --bind 0.0.0.0:5000 wsgi:app --reload --log-file gunicorn.log &
+Dentro do script startup.php adicionei a seguinte linha: 
+
+gunicorn3 --bind 0.0.0.0:5000 wsgi:app --reload --log-file gunicorn.log &
+
 Essa linha manda as logs para um arquivo, sem precisar imprimir tudo na tela. E a flag reload ajusta na hora que o travis realiza o rsync
 para o diretório onde a aplicação está executando. Dessa forma, o próprio gunicorn faz um reload com os arquivos atualizados.
